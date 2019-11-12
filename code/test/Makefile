@@ -157,13 +157,6 @@ matmult: matmult.o start.o
 	$(LD) $(LDFLAGS) start.o matmult.o -o matmult.coff
 	$(COFF2NOFF) matmult.coff matmult
 
-fork.o: fork.c
-	$(CC) $(CFLAGS) -c fork.c
-
-fork: fork.o start.o
-	$(LD) $(LDFLAGS) start.o fork.o -o fork.coff
-	$(COFF2NOFF) fork.coff fork
-
 read.o: read.c
 	$(CC) $(CFLAGS) -c read.c
 
