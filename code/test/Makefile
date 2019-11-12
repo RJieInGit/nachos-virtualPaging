@@ -112,7 +112,7 @@ ifeq ($(hosttype),unknown)
 PROGRAMS = unknownhost
 else
 # change this if you create a new test program!
-PROGRAMS = add halt shell matmult sort segments
+PROGRAMS = add halt shell matmult sort segments fork read write exec exit 
 endif
 
 all: $(PROGRAMS)
@@ -157,6 +157,40 @@ matmult: matmult.o start.o
 	$(LD) $(LDFLAGS) start.o matmult.o -o matmult.coff
 	$(COFF2NOFF) matmult.coff matmult
 
+fork.o: fork.c
+	$(CC) $(CFLAGS) -c fork.c
+
+fork: fork.o start.o
+	$(LD) $(LDFLAGS) start.o fork.o -o fork.coff
+	$(COFF2NOFF) fork.coff fork
+
+read.o: read.c
+	$(CC) $(CFLAGS) -c read.c
+
+read: read.o read.o
+	$(LD) $(LDFLAGS) start.o read.o -o read.coff
+	$(COFF2NOFF) read.coff read
+
+write.o: write.c
+	$(CC) $(CFLAGS) -c write.c
+
+write: write.o write.o
+	$(LD) $(LDFLAGS) start.o write.o -o write.coff
+	$(COFF2NOFF) write.coff write
+
+exec.o: exec.c
+	$(CC) $(CFLAGS) -c exec.c
+
+exec: exec.o exec.o
+	$(LD) $(LDFLAGS) start.o exec.o -o exec.coff
+	$(COFF2NOFF) exec.coff exec
+
+exit.o: exit.c
+	$(CC) $(CFLAGS) -c exit.c
+
+exit: exit.o exit.o
+	$(LD) $(LDFLAGS) start.o exit.o -o exit.coff
+	$(COFF2NOFF) exit.coff exit
 clean:
 	$(RM) -f *.o *.ii
 	$(RM) -f *.coff
