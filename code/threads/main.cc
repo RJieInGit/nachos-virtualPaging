@@ -305,7 +305,7 @@ main(int argc, char **argv)
       char* name = userProgName.RemoveFront();
       t= new Thread(name);
       t->Fork(RunUserProg,name);
-      println("new userprog forked %s",name);
+      printf("new userprog forked %s \n",name);
     }
     
 
