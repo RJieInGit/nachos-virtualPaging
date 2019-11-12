@@ -45,6 +45,7 @@
 #include "filesys.h"
 #include "openfile.h"
 #include "sysdep.h"
+#include "../lib/list.h"
 
 // global variables
 Kernel *kernel;
@@ -182,7 +183,7 @@ main(int argc, char **argv)
 {
     int i;
     char *debugArg = "";
-    char *userProgName = NULL;        // default is not to execute a user prog
+    List<char*> userProgName        // default is not to execute a user prog
     bool threadTestFlag = false;
     bool consoleTestFlag = false;
     bool networkTestFlag = false;
@@ -209,7 +210,7 @@ main(int argc, char **argv)
 	}
 	else if (strcmp(argv[i], "-x") == 0) {
 	    ASSERT(i + 1 < argc);
-	    userProgName = argv[i + 1];
+	    userProgName.Append(argv[i + 1]);
 	    i++;
 	}
 	else if (strcmp(argv[i], "-K") == 0) {
@@ -299,9 +300,13 @@ main(int argc, char **argv)
 #endif // FILESYS_STUB
 
     // finally, run an initial user program if requested to do so
-    if (userProgName != NULL) {
-      RunUserProg(userProgName);
+    Thread *t;
+    while (userProgName.NumInList()!=0) {
+      char* name = userProgName.RemoveFront();
+      t= new Thread(name);
+      t->Fork(RunUserProg,name)
     }
+    
 
     // NOTE: if the procedure "main" returns, then the program "nachos"
     // will exit (as any other normal program would).  But there may be
