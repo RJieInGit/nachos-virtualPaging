@@ -183,7 +183,7 @@ main(int argc, char **argv)
 {
     int i;
     char *debugArg = "";
-    List<char*> userProgName        // default is not to execute a user prog
+    List<char*> userProgName;        // default is not to execute a user prog
     bool threadTestFlag = false;
     bool consoleTestFlag = false;
     bool networkTestFlag = false;
