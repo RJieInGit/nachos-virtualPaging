@@ -304,7 +304,7 @@ main(int argc, char **argv)
     while (userProgName.NumInList()!=0) {
       char* name = userProgName.RemoveFront();
       t= new Thread(name);
-      t->Fork(RunUserProg,name)
+      t->Fork(RunUserProg,name);
     }
     
 
