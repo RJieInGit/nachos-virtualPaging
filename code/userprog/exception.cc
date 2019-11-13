@@ -85,7 +85,7 @@ ExceptionHandler(ExceptionType which)
 			kernel->swapspace->ReadAt(&(kernel->machine->mainMemory[ppn*PageSize]),PageSize,PageSize*pageEntry->virtualPage);
 			kernel->entryList->Append(pageEntry);
 		}
-	  prtinf("%s\n",kernel->machine->mainMemory);
+	  printf("%s\n",kernel->machine->mainMemory);
 	}
 
 	return;
