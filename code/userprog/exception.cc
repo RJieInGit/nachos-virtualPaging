@@ -59,10 +59,12 @@ ExceptionHandler(ExceptionType which)
 			case PageFaultException:{
 	/* Modify return point */
 	{
+		printf("pagefault\n");
 		int faultaddr = kernel->machine->ReadRegister(BadVAddrReg);
 		int faultpn=faultaddr/PageSize;
 	    int ppn= kernel->freeMap->FindAndSet();
 		TranslationEntry* pageEntry = kernel->currentThread->space->getPageEntry(faultpn);
+		printf("faultpn: %d , vpn : %d \n",faultpn,pageEntry->virtualPage);
 		if(ppn!=-1){
 			pageEntry->physicalPage=ppn;
 			pageEntry->valid=true;
