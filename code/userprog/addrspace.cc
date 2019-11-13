@@ -170,8 +170,8 @@ AddrSpace::Load(char *fileName)
        pageTable[i].use=false;
        pageTable[i].dirty=false;
        pageTable[i].readOnly=false;
-       executable->ReadAt(buffer,PageSize,i*PageSize);
-       kernel->swapspace->WriteAt(buffer,PageSize,PageSize*kernel->swapspace_counter);
+       executable->ReadAt(buffer,PageSize,noffh.code.inFileAddr+i*PageSize);
+       kernel->swapspace->WriteAt(buffer,PageSize,PageSize*pageTable[i].virtualPage);
        kernel->swapspace_counter++;
 
    }
