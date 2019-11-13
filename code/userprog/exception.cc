@@ -57,7 +57,7 @@ ExceptionHandler(ExceptionType which)
 
     switch (which) {
 			case PageFaultException:{
-				kernel->stats.numPageFaults++;
+				kernel->stats->numPageFaults++;
 	/* Modify return point */
 	{
 		//printf("pagefault\n");
