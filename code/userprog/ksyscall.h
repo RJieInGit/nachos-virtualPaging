@@ -28,24 +28,33 @@ int SysAdd(int op1, int op2)
 }
 
 void SysWrite(int buffer, int size){
+  printf("here");
   int content;
   for(int i=0;i<size;i++){
-    kernel->machine->ReadMem(buffer,1,&content);
+    if(!kernel->machine->ReadMem(buffer,1,&content))
+    break;
     buffer++;
     printf("%c",content);
   }
+  printf("sys_write called finished here \n");
+   kernel->stats->Print(); 
 }
 
 void SysRead(int buffer,int size, char* content){
   int c;
   for(int i=0;i>size;i++){
     c=(int)content[i];
-    kernel->machine->ReadMem(buffer,1,&c);
+    if(!kernel->machine->ReadMem(buffer,1,&c))
+    break;
   }
+  printf("sys_read called finished here \n");
+   kernel->stats->Print(); 
 }
 
 void SysExit(){
   delete kernel->currentThread->space;
+  printf("exit called here \n");
+   kernel->stats->Print(); 
   kernel->currentThread->Finish();
 }
 
@@ -61,7 +70,8 @@ int SysFork(){
    t->setReg(PCReg,funcaddr);
    t->setReg(NextPCReg,funcaddr+4);
    t->Fork((VoidFunctionPtr)usrFork,(void *)0);
-
+printf("sys_fork called finished here \n");
+   kernel->stats->Print(); 
     return t->space->spaceId;
 }
 
@@ -83,7 +93,9 @@ int  SysExec(int filename){
    AddrSpace *space = new AddrSpace;
    space->Load(name);
    Thread *th = new Thread("execthread");
-   th->Fork((VoidFunctionPtr)execPro,(void *)space); 
+   th->Fork((VoidFunctionPtr)execPro,(void *)space);
+   printf("exec called finished here \n");
+   kernel->stats->Print(); 
    return 0;
 }
 
