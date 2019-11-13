@@ -28,7 +28,6 @@ int SysAdd(int op1, int op2)
 }
 
 void SysWrite(int buffer, int size){
-  printf("here");
   int content;
   for(int i=0;i<size;i++){
     if(!kernel->machine->ReadMem(buffer,1,&content))
@@ -37,6 +36,7 @@ void SysWrite(int buffer, int size){
     printf("%c",content);
   }
   printf("sys_write called finished here \n");
+  printf("-----------------------------------\n");
    kernel->stats->Print(); 
 }
 
@@ -48,12 +48,14 @@ void SysRead(int buffer,int size, char* content){
     break;
   }
   printf("sys_read called finished here \n");
+  printf("-----------------------------------\n");
    kernel->stats->Print(); 
 }
 
 void SysExit(){
   delete kernel->currentThread->space;
   printf("exit called here \n");
+printf("-----------------------------------\n");
    kernel->stats->Print(); 
   kernel->currentThread->Finish();
 }
@@ -71,6 +73,7 @@ int SysFork(){
    t->setReg(NextPCReg,funcaddr+4);
    t->Fork((VoidFunctionPtr)usrFork,(void *)0);
 printf("sys_fork called finished here \n");
+printf("-----------------------------------\n");
    kernel->stats->Print(); 
     return t->space->spaceId;
 }
@@ -95,6 +98,7 @@ int  SysExec(int filename){
    Thread *th = new Thread("execthread");
    th->Fork((VoidFunctionPtr)execPro,(void *)space);
    printf("exec called finished here \n");
+   printf("-----------------------------------\n");
    kernel->stats->Print(); 
    return 0;
 }
