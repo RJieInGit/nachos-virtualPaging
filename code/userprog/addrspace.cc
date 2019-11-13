@@ -80,7 +80,7 @@ AddrSpace::AddrSpace()
     }
     //numPages=NumPhysPages;
     // zero out the entire address space
-    bzero(kernel->machine->mainMemory, MemorySize);
+    //bzero(kernel->machine->mainMemory, MemorySize);
     spaceId=AddrSpace::spacecounter;
     AddrSpace::spacecounter++;
     
