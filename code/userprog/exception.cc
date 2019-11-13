@@ -213,6 +213,43 @@ ExceptionHandler(ExceptionType which)
 	}
 	break;
 
+	case PageFaultException:{
+	/* Modify return point */
+	{
+		faultaddr = kernel->machine->ReadRegister(BadVAddrReg);
+		int faultpn=faultaddr/PageSize;
+	    int ppn= kernel->freemap->FindAndSet();
+		TranslationEntry* pageEntry = kernel->currentThread->space->getPageEntry(faultpn);
+		if(ppn!=-1){
+			pageEntry->physicalPage=ppn;
+			pageEntry->valid=true;
+			kernel->swapspace->ReadAt(&(kernel->machine->mainMemory[ppn*PageSize]),PageSize,PageSize*pageEntry->virtualPage);
+			kernel->entryList->Append(pageEntry);
+		}
+		else{
+			//the entry at the front is the least recent used entry
+			TranslationEntry *evict= kernel->entryList->RemoveFront();
+			int ppn = evict->physicalPage;
+			if(evict->dirty){
+
+			}
+			evict->physicalPage=-1;
+			evict->valid=false;
+			pageEntry->physicalPage=ppn;
+			pageEntry->valid=true;
+			kernel->swapspace->ReadAt(&(kernel->machine->mainMemory[ppn*PageSize]),PageSize,PageSize*pageEntry->virtualPage);
+			kernel->entryList->Append(pageEntry);
+		}
+	  
+	}
+
+	return;
+	
+	ASSERTNOTREACHED();
+	}
+	break;
+
+
       default:
 	cerr << "Unexpected system call " << type << "\n";
 	break;

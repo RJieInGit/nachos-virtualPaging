@@ -101,11 +101,21 @@ Kernel::Initialize()
     synchConsoleIn = new SynchConsoleInput(consoleIn); // input from stdin
     synchConsoleOut = new SynchConsoleOutput(consoleOut); // output to stdout
     synchDisk = new SynchDisk();    //
+    entryList =new List<TranslationEntry*>();
+    freeMap = new Bitmap(NumPhysPages);
+
 #ifdef FILESYS_STUB
-    fileSystem = new FileSystem();
+    fileSystem = new FileSystem();          //initialize virtual memory
+    if(fileSystem->Create("swapspace")){
+        swapspace=fileSystem->Open("swapspace");
+    }
 #else
     fileSystem = new FileSystem(formatFlag);
+    if(fileSystem->Create("swapspace",0)){
+        swapspace=fileSystem->Open("swapspace");
+    }
 #endif // FILESYS_STUB
+
     postOfficeIn = new PostOfficeInput(10);
     postOfficeOut = new PostOfficeOutput(reliability);
 

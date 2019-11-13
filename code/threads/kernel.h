@@ -56,6 +56,13 @@ class Kernel {
     FileSystem *fileSystem;     
     PostOfficeInput *postOfficeIn;
     PostOfficeOutput *postOfficeOut;
+    
+    OpenFile *swapspace;
+    int swapspace_counter;
+    List<TranslationEntry*> *entryList;
+    Bitmap *freeMap;
+
+
 
     int hostName;               // machine identifier
 

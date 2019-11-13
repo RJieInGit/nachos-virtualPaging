@@ -111,6 +111,12 @@ AddrSpace::~AddrSpace()
    delete pageTable;
 }
 
+// get the pageEntry from faultPN
+TranslationEntry*
+AddrSpace::getPageEntry(int faultpn){
+    ASSERT(faultpn<numPages);
+    return &pageTable[faultpn];
+}
 
 //----------------------------------------------------------------------
 // AddrSpace::Load
@@ -154,19 +160,31 @@ AddrSpace::Load(char *fileName)
 #endif
     numPages = divRoundUp(size, PageSize);
     size = numPages * PageSize;
+   pageTable = TranslationEntry[numPages];
 
-    ASSERT(numPages <= NumPhysPages);		// check we're not trying
-						// to run anything too big --
-						// at least until we have
-						// virtual memory
+   char* buffer =new char[PageSize];
+   for(int i=0;i<numPages;i++){
+       pageTable[i].virtualPage=kernel->swapspace_counter;
+       pageTable[i].physicalPage=-1;
+       pageTable[i].valid=false;
+       pageTable[i].use=false;
+       pageTable[i].dirty=false;
+       pageTable[i].readOnly=false;
+       executable->ReadAt(buffer,PageSize,i*PageSize);
+       kernel->swapspace->WriteAt(buffer,PageSize,Pagesize*kernel->swapspace_counter);
+       kernel->swapspace_counter++;
+
+   }
 
     DEBUG(dbgAddr, "Initializing address space: " << numPages << ", " << size);
-
+/*
 // then, copy in the code and data segments into memory
 // Note: this code assumes that virtual address = physical address
+// now read the code into swapspace file
     if (noffH.code.size > 0) {
         DEBUG(dbgAddr, "Initializing code segment.");
 	DEBUG(dbgAddr, noffH.code.virtualAddr << ", " << noffH.code.size);
+        char* buffer =new char[noffH.code.size]
         executable->ReadAt(
 		&(kernel->machine->mainMemory[noffH.code.virtualAddr]), 
 			noffH.code.size, noffH.code.inFileAddr);
@@ -188,6 +206,7 @@ AddrSpace::Load(char *fileName)
 			noffH.readonlyData.size, noffH.readonlyData.inFileAddr);
     }
 #endif
+*/
 
     delete executable;			// close file
     return TRUE;			// success

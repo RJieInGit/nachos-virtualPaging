@@ -17,6 +17,9 @@
         "tuple": "cpp",
         "utility": "cpp",
         "istream": "cpp",
-        "ostream": "cpp"
+        "ostream": "cpp",
+        "unordered_map": "c",
+        "*.tcc": "c",
+        "complex": "c"
     }
 }

@@ -34,6 +34,7 @@ class AddrSpace {
 
     void SaveState();			// Save/restore address space-specific
     void RestoreState();		// info on a context switch 
+    TranslationEntry* getPageEntry(int faultpn);
 
     // Translate virtual address _vaddr_
     // to physical address _paddr_. _mode_
