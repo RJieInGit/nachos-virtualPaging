@@ -64,7 +64,7 @@ ExceptionHandler(ExceptionType which)
 		int faultpn=faultaddr/PageSize;
 	    int ppn= kernel->freeMap->FindAndSet();
 		TranslationEntry* pageEntry = kernel->currentThread->space->getPageEntry(faultpn);
-		printf("faultpn: %d , vpn : %d \n",faultpn,pageEntry->virtualPage);
+		printf("faultpn: %d , vpn : %d, ppn: %d \n",faultpn,pageEntry->virtualPage, ppn);
 		if(ppn!=-1){
 			pageEntry->physicalPage=ppn;
 			pageEntry->valid=true;
