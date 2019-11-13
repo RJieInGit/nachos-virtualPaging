@@ -1,7 +1,7 @@
 #include "syscall.h"
 
 void prog(void *arg){
-    Write("forked by syscall \n");
+    Write("forked by syscall \n",50);
 }
 
 int
