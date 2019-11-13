@@ -3,6 +3,6 @@ int
 main()
 {
 
-  ThreadExit(0);
+  Exit(0);
   /* not reached */
 }
