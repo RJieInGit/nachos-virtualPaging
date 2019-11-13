@@ -8,7 +8,6 @@ void prog(void *arg){
 int
 main()
 {
-  printf("now  test syscall fork\n");
   ThreadFork(prog);
   /* not reached */
 }
