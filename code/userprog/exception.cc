@@ -213,12 +213,12 @@ ExceptionHandler(ExceptionType which)
 	}
 	break;
 
-	case PageFaultException:{
+	case ExceptionType::PageFaultException:{
 	/* Modify return point */
 	{
-		faultaddr = kernel->machine->ReadRegister(BadVAddrReg);
+		int faultaddr = kernel->machine->ReadRegister(BadVAddrReg);
 		int faultpn=faultaddr/PageSize;
-	    int ppn= kernel->freemap->FindAndSet();
+	    int ppn= kernel->freeMap->FindAndSet();
 		TranslationEntry* pageEntry = kernel->currentThread->space->getPageEntry(faultpn);
 		if(ppn!=-1){
 			pageEntry->physicalPage=ppn;
