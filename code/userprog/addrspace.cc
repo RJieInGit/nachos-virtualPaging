@@ -160,7 +160,7 @@ AddrSpace::Load(char *fileName)
 #endif
     numPages = divRoundUp(size, PageSize);
     size = numPages * PageSize;
-   pageTable = TranslationEntry[numPages];
+   pageTable = new TranslationEntry[numPages];
 
    char* buffer =new char[PageSize];
    for(int i=0;i<numPages;i++){
@@ -171,7 +171,7 @@ AddrSpace::Load(char *fileName)
        pageTable[i].dirty=false;
        pageTable[i].readOnly=false;
        executable->ReadAt(buffer,PageSize,i*PageSize);
-       kernel->swapspace->WriteAt(buffer,PageSize,Pagesize*kernel->swapspace_counter);
+       kernel->swapspace->WriteAt(buffer,PageSize,PageSize*kernel->swapspace_counter);
        kernel->swapspace_counter++;
 
    }
