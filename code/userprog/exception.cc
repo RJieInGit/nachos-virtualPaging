@@ -69,7 +69,6 @@ ExceptionHandler(ExceptionType which)
 			pageEntry->physicalPage=ppn;
 			pageEntry->valid=true;
 			kernel->swapspace->ReadAt(&(kernel->machine->mainMemory[ppn*PageSize]),PageSize,PageSize*pageEntry->virtualPage);
-			kernel->entryList->Append(pageEntry);
 		}
 		else{
 			//the entry at the front is the least recent used entry
@@ -83,8 +82,10 @@ ExceptionHandler(ExceptionType which)
 			pageEntry->physicalPage=ppn;
 			pageEntry->valid=true;
 			kernel->swapspace->ReadAt(&(kernel->machine->mainMemory[ppn*PageSize]),PageSize,PageSize*pageEntry->virtualPage);
-			kernel->entryList->Append(pageEntry);
 		}
+		if(kernel->entryList->IsInList(pageEntry))
+			kernel->entryList->Remove(pageEntry);
+			kernel->entryList->Append(pageEntry);
 	  //printf("%s\n",kernel->machine->mainMemory);
 	}
 
