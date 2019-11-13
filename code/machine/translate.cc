@@ -247,5 +247,8 @@ Machine::Translate(int virtAddr, int* physAddr, int size, bool writing)
     *physAddr = pageFrame * PageSize + offset;
     ASSERT((*physAddr >= 0) && ((*physAddr + size) <= MemorySize));
     DEBUG(dbgAddr, "phys addr = " << *physAddr);
+	//update the recent usage in entrylist 
+	kernel->entryList->Remove(entry);
+	kernel->entryList->Append(entry);
     return NoException;
 }
