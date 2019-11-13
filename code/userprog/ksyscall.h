@@ -35,7 +35,7 @@ void SysWrite(int buffer, int size){
     buffer++;
     printf("%c",content);
   }
-  printf("sys_write called finished here \n");
+  printf("\n\nsys_write called finished here \n");
   printf("-----------------------------------\n");
    kernel->stats->Print(); 
 }
@@ -47,14 +47,14 @@ void SysRead(int buffer,int size, char* content){
     if(!kernel->machine->ReadMem(buffer,1,&c))
     break;
   }
-  printf("sys_read called finished here \n");
+  printf("\n\nsys_read called finished here \n");
   printf("-----------------------------------\n");
    kernel->stats->Print(); 
 }
 
 void SysExit(){
   delete kernel->currentThread->space;
-  printf("exit called here \n");
+  printf("\n\nexit called here \n");
 printf("-----------------------------------\n");
    kernel->stats->Print(); 
   kernel->currentThread->Finish();
@@ -72,7 +72,7 @@ int SysFork(){
    t->setReg(PCReg,funcaddr);
    t->setReg(NextPCReg,funcaddr+4);
    t->Fork((VoidFunctionPtr)usrFork,(void *)0);
-printf("sys_fork called finished here \n");
+printf("\n\nsys_fork called finished here \n");
 printf("-----------------------------------\n");
    kernel->stats->Print(); 
     return t->space->spaceId;
@@ -97,7 +97,7 @@ int  SysExec(int filename){
    space->Load(name);
    Thread *th = new Thread("execthread");
    th->Fork((VoidFunctionPtr)execPro,(void *)space);
-   printf("exec called finished here \n");
+   printf("\n\nexec called finished here \n");
    printf("-----------------------------------\n");
    kernel->stats->Print(); 
    return 0;
