@@ -250,6 +250,6 @@ Machine::Translate(int virtAddr, int* physAddr, int size, bool writing)
 	//update the recent usage in entrylist 
 	kernel->entryList->Remove(entry);
 	kernel->entryList->Append(entry);
-	printf("update lru here\n");
+	//printf("update lru here\n");
     return NoException;
 }
