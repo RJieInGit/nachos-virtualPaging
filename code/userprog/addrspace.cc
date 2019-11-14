@@ -91,11 +91,13 @@ AddrSpace:: AddrSpace(AddrSpace* ptr){
     pageTable =new TranslationEntry[numPages];
     for(int i=0;i<numPages;i++){
         pageTable[i].virtualPage=kernel->swapspace_counter++;
+        //copy from swapspace if it is not valid in physical
         if(!ptr->pageTable[i].valid){
         char* buffer =new char[PageSize];
         kernel->swapspace->ReadAt(buffer,PageSize,PageSize*ptr->pageTable[i].virtualPage);
         kernel->swapspace->WriteAt(buffer,PageSize,PageSize*pageTable[i].virtualPage);
         }
+        //copy from physical memory if it is valid 
         else{
         kernel->swapspace->WriteAt(&kernel->machine->mainMemory[PageSize*ptr->pageTable[i]->physicalPage],PageSize,pageTable[i].virtualPage);
         }
