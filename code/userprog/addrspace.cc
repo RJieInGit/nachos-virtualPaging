@@ -88,6 +88,7 @@ AddrSpace::AddrSpace()
 
 //copy constructor 
 AddrSpace:: AddrSpace(AddrSpace* ptr){
+    numPages = ptr->numPages;
     pageTable =new TranslationEntry[numPages];
     for(int i=0;i<numPages;i++){
         pageTable[i].virtualPage=kernel->swapspace_counter++;
