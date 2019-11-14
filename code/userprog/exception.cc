@@ -75,9 +75,8 @@ ExceptionHandler(ExceptionType which)
 			//the entry at the front is the least recent used entry
 			TranslationEntry *evict= kernel->entryList->RemoveFront();
 			int ppn = evict->physicalPage;
-			if(evict->dirty){
-
-			}
+			//write back to swapspace
+			kernel->swapspace->WriteAt(&kernel->machine->mainMemory[ppn*PageSize],PageSize,PageSize*evict->virtualPage);
 			evict->physicalPage=-1;
 			evict->valid=false;
 			pageEntry->physicalPage=ppn;
