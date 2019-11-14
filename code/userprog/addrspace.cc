@@ -122,7 +122,7 @@ AddrSpace::~AddrSpace()
 // get the pageEntry from faultPN
 TranslationEntry*
 AddrSpace::getPageEntry(int faultpn){
-    printf("fpn: %d, numpage: %d \n",faultpn,numPages);
+    //printf("fpn: %d, numpage: %d \n",faultpn,numPages);
     ASSERT(faultpn<numPages);
     return &pageTable[faultpn];
 }
