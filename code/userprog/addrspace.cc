@@ -90,9 +90,17 @@ AddrSpace::AddrSpace()
 AddrSpace:: AddrSpace(AddrSpace* ptr){
     pageTable =new TranslationEntry[numPages];
     for(int i=0;i<numPages;i++){
-        pageTable[i].virtualPage=ptr->pageTable[i].virtualPage;
-        pageTable[i].physicalPage=ptr->pageTable[i].physicalPage;
-        pageTable[i].valid=ptr->pageTable[i].valid;
+        pageTable[i].virtualPage=kernel->swapspace_counter++;
+        if(!ptr->valid){
+        char* buffer =new char[PageSize];
+        kernel->swapspace->ReadAt(buffer,pageSize,PageSize*ptr->pageTable[i].virtualPage);
+        kernel->swapspace->WriteAt(buffer,PageSize,PageSize*pageTable[i].virtualPage);
+        }
+        else{
+        kernel->swapspace->WriteAt(&kernel->mainMemory[ptr->pageTable[i]*PageSize],PageSize,pageTable[i].virtualPage);
+        }
+        pageTable[i].physicalPage=-1;
+        pageTable[i].valid=false;
         pageTable[i].use=ptr->pageTable[i].use;
         pageTable[i].dirty = ptr->pageTable[i].dirty;
         pageTable[i].readOnly=ptr->pageTable[i].readOnly;
