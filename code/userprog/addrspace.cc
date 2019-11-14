@@ -97,7 +97,7 @@ AddrSpace:: AddrSpace(AddrSpace* ptr){
         kernel->swapspace->WriteAt(buffer,PageSize,PageSize*pageTable[i].virtualPage);
         }
         else{
-        kernel->swapspace->WriteAt(&kernel->machine->mainMemory[ptr->pageTable[i]*PageSize],PageSize,pageTable[i].virtualPage);
+        kernel->swapspace->WriteAt(&kernel->machine->mainMemory[PageSize*ptr->pageTable[i]],PageSize,pageTable[i].virtualPage);
         }
         pageTable[i].physicalPage=-1;
         pageTable[i].valid=false;
