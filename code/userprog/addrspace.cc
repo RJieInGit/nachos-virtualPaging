@@ -99,7 +99,7 @@ AddrSpace:: AddrSpace(AddrSpace* ptr){
         }
         //copy from physical memory if it is valid 
         else{
-        kernel->swapspace->WriteAt(&kernel->machine->mainMemory[PageSize*ptr->pageTable[i]->physicalPage],PageSize,pageTable[i].virtualPage);
+        kernel->swapspace->WriteAt(&kernel->machine->mainMemory[PageSize*ptr->pageTable[i].physicalPage],PageSize,pageTable[i].virtualPage);
         }
         pageTable[i].physicalPage=-1;
         pageTable[i].valid=false;
