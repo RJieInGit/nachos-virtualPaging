@@ -91,13 +91,13 @@ AddrSpace:: AddrSpace(AddrSpace* ptr){
     pageTable =new TranslationEntry[numPages];
     for(int i=0;i<numPages;i++){
         pageTable[i].virtualPage=kernel->swapspace_counter++;
-        if(!ptr->valid){
+        if(!ptr->pageTable[i].valid){
         char* buffer =new char[PageSize];
-        kernel->swapspace->ReadAt(buffer,pageSize,PageSize*ptr->pageTable[i].virtualPage);
+        kernel->swapspace->ReadAt(buffer,PageSize,PageSize*ptr->pageTable[i].virtualPage);
         kernel->swapspace->WriteAt(buffer,PageSize,PageSize*pageTable[i].virtualPage);
         }
         else{
-        kernel->swapspace->WriteAt(&kernel->mainMemory[ptr->pageTable[i]*PageSize],PageSize,pageTable[i].virtualPage);
+        kernel->swapspace->WriteAt(&kernel->machine->mainMemory[ptr->pageTable[i]*PageSize],PageSize,pageTable[i].virtualPage);
         }
         pageTable[i].physicalPage=-1;
         pageTable[i].valid=false;
