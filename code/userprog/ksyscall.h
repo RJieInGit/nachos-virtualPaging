@@ -92,6 +92,7 @@ int  SysExec(int filename){
     if(!kernel->machine->ReadMem(addr,1,&c))
       break;
       name[i]=c;
+      addr++;
   }
    AddrSpace *space = new AddrSpace;
    space->Load(name);
