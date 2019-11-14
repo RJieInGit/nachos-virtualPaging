@@ -107,7 +107,15 @@ AddrSpace:: AddrSpace(AddrSpace* ptr){
 //----------------------------------------------------------------------
 
 AddrSpace::~AddrSpace()
-{
+{ 
+   for(int i=0;i<numPages;i++){
+       if(pageTable[i].valid){
+       kernel->machine->entryList->Remove(&pageTable[i]);
+       kernel->freeMap->Clear(pageTable[i].physicalPage);
+       pageTable[i].valid=false;
+       pageTable[i].physicalPage=-1;
+       }
+   }
    delete pageTable;
 }
 

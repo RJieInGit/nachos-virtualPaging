@@ -89,7 +89,7 @@ int  SysExec(int filename){
   char* name = new char[100];
   for(int i=0;i<size;i++){
     int c;
-    if(!kernel->machine->ReadMem(addr,size,&c))
+    if(!kernel->machine->ReadMem(addr,1,&c))
       break;
       name[i]=c;
   }
